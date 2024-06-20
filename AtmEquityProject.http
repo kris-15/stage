@@ -1,0 +1,6 @@
+@AtmEquityProject_HostAddress = http://localhost:5107
+
+GET {{AtmEquityProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
