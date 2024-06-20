@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IAtm, AtmRepository>();
 builder.Services.AddScoped<IBalance, BalanceRepository>();
-//builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IUser, UserRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
@@ -55,8 +55,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-//builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-//builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,6 +71,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-//app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
