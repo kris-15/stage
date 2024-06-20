@@ -1,6 +1,8 @@
-﻿using AtmEquityProject.Helper;
+﻿using AtmEquityProject.Dto;
+using AtmEquityProject.Helper;
 using AtmEquityProject.Interfaces;
 using AtmEquityProject.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtmEquityProject.Controllers
@@ -10,9 +12,12 @@ namespace AtmEquityProject.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
-        public UsersController(IUserService userService)
+        private readonly IMapper _mapper;
+
+        public UsersController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
         //Authentification
         [HttpPost("authentification")]
@@ -27,11 +32,12 @@ namespace AtmEquityProject.Controllers
         }
         //Pour l'enregistrement d'un nouvel user
         [HttpPost]
+        [ProducesResponseType(201)]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] User userObj)
+        public async Task<IActionResult> Post([FromBody] UserDto userObj)
         {
-            userObj.Id = 0;
-            return Ok(await _userService.AddAndUpdateUser(userObj));
+            var userMapped = _mapper.Map<User>(userObj);
+            return Ok(await _userService.AddAndUpdateUser(userMapped));
         }
 
         // Pour la modification des informations de user par son id

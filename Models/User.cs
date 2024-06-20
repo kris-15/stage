@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace AtmEquityProject.Models
 {
@@ -11,6 +12,7 @@ namespace AtmEquityProject.Models
 
         [JsonIgnore]
         public string Password { get; set; }
+        [DefaultValue(true)]
         public bool isActive { get; set; }
     }
 
