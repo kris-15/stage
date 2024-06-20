@@ -1,0 +1,10 @@
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln
+*.csproj
+*.http
+[Bb]in/
+.vs/
+[Oo]bj/
