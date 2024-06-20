@@ -17,7 +17,7 @@ builder.Services.AddScoped<IBalance, BalanceRepository>();
 //builder.Services.AddScoped<IUser, UserRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(/*swagger =>
+builder.Services.AddSwaggerGen(swagger =>
 {
     //Cette partie permet de générer l'interface par défaut de la Documentation Swagger
     swagger.SwaggerDoc("v1", new OpenApiInfo
@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen(/*swagger =>
                             new string[] {}
                     }
                 });
-}*/);
+});
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

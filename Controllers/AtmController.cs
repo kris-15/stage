@@ -9,7 +9,7 @@ namespace AtmEquityProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class AtmController : Controller
     {
         private readonly IAtm? _atmRepository;

@@ -1,4 +1,5 @@
 ﻿using AtmEquityProject.Dto;
+using AtmEquityProject.Helper;
 using AtmEquityProject.Interfaces;
 using AtmEquityProject.Models;
 using AtmEquityProject.Repositories;
@@ -9,6 +10,7 @@ namespace AtmEquityProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BalanceController : Controller
     {
         public readonly IBalance _balanceRepository;
