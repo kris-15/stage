@@ -1,6 +1,8 @@
 ﻿using AtmEquityProject.Data;
 using AtmEquityProject.Interfaces;
 using AtmEquityProject.Models;
+using Azure.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +39,10 @@ namespace AtmEquityProject.Repositories
         public async Task<User?> GetById(int id)
         {
             return await db.Users.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public User GetUserById(int id)
+        {
+            return db.Users.Where(x => x.Id == id).FirstOrDefault();
         }
         public async Task<User?> AddAndUpdateUser(User userData)
         {
@@ -77,6 +83,28 @@ namespace AtmEquityProject.Repositories
                 return tokenHandler.CreateToken(tokenDescriptor);
             });
             return tokenHandler.WriteToken(token);
+        }
+        public User GetUserInfo(string token)
+        {
+            // Logique d'extraction des informations de l'utilisateur à partir du token JWT
+            // ...
+            if (token == null | token =="")
+                return new User { FirstName="", Username=""};
+            var handler = new JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+
+            var claimsPrincipal = handler.ValidateToken(token, validationParameters, out var securityToken);
+            var userId = int.Parse(claimsPrincipal.Claims.First(x => x.Type == "id").Value);
+            var user = this.GetUserById(userId);
+            if(user == null)
+                return new User { FirstName="", Username=""};
+            return user;
         }
     }
 }

@@ -47,5 +47,16 @@ namespace AtmEquityProject.Controllers
         {
             return Ok(await _userService.AddAndUpdateUser(userObj));
         }
+
+        [HttpGet("connected")]
+        public IActionResult GetData()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var userInfo = _userService.GetUserInfo(token);
+            if (userInfo == null)
+                return NotFound();
+            // Utilisation des informations de l'utilisateur
+            return Ok(userInfo);
+        }
     }
 }
